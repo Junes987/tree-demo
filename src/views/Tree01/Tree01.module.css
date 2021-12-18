@@ -1,0 +1,83 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.container{
+    
+}
+
+.tree {
+
+}
+
+
+.treeItem {
+    margin: 8px 10px 0;
+    overflow: hidden;
+}
+
+.treeItem.close {
+    height: 26px;
+}
+
+.treeTitle {
+    display: flex;
+    height: 26px;
+    line-height: 26px;
+}
+
+.treeTitle .folder{
+    width: 17px;
+    height: 17px;
+    margin-top: 5px;
+    transform: rotate(0);
+    transition: .3s all ease;
+}
+
+.treeTitle .folder.open{
+    background: url(../../static/images/down.png) no-repeat;
+    background-size: contain;
+    transform: rotate(0);
+    cursor: pointer;
+}
+
+.treeTitle .folder.close{
+    background: url(../../static/images/down.png) no-repeat;
+    background-size: contain;
+    transform: rotate(-90deg);
+    cursor: pointer;
+}
+
+
+.treeTitle .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    margin: 3px 10px 0;
+    cursor: pointer;
+}
+
+.treeTitle .checkbox.checked {
+    background: url(../../static/images/check.png) no-repeat;
+    background-size: contain;
+}
+
+.treeTitle .checkbox.half::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    background-color: #1890FF;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+
+.treeTitle .item{
+    font-size: 14px;
+    line-height: 26px;
+}
+
+
