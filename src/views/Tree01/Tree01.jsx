@@ -111,6 +111,43 @@ const Tree01 = (props) => {
         }
     }
 
+    // 只选择子节点
+    const handleResultByChild = (data) => {
+        const searchChild = (data,callback) => {
+            data.forEach((item) => {
+                if(item.children){
+                    searchChild(item.children,callback)
+                }else{
+                    if(item.checked === 'checked'){
+                        callback(item)
+                    }
+                }
+            })
+        }
+        const result = []
+        searchChild(data, (item) => {
+            result.push(item)
+        })
+        console.log(result)
+    }
+
+    // 向上折叠父节点
+    const handleResultByParent = (data) => {
+        const searchParent = (data,callback) => {
+            data.forEach((item) => {
+                if(item.checked === 'checked'){
+                    callback(item)
+                }else if(item.checked === 'half'){
+                    searchParent(item.children,callback)
+                }
+            })
+        }
+        const result = []
+        searchParent(data, (item) => {
+            result.push(item)
+        })
+        console.log(result)
+    }
 
     // 选中节点
     const handleChangeCheck = (current) => {
@@ -123,7 +160,8 @@ const Tree01 = (props) => {
         adjustParentCheck(current)
         adjustChildCheck(current, current.checked)
         setList([...list])
-
+        // handleResultByChild([...list])
+        handleResultByParent([...list])
     }
 
     const renderTree = (data) => {
