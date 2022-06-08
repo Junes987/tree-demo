@@ -4,63 +4,69 @@ import styles from './Tree01.module.css'
 
 const rootData = [
     {
-        id: '1-0', 
-        title: '1-0', 
-        children: [
+        id:'1',
+        title:'1',
+        children:[
             {
-                id: '1-0-0', 
-                title: '1-0-0', 
+                id: '1-0', 
+                title: '1-0', 
                 children: [
-                    { 
-                        id: '1-0-0-0', 
-                        title: '1-0-0-0' 
-                    },
-                    { 
-                        id: '1-0-0-1', 
-                        title: '1-0-0-1' 
-                    },
-                    { 
-                        id: '1-0-0-2', 
-                        title: '1-0-0-2' 
+                    {
+                        id: '1-0-0', 
+                        title: '1-0-0', 
+                        children: [
+                            { 
+                                id: '1-0-0-0', 
+                                title: '1-0-0-0' 
+                            },
+                            { 
+                                id: '1-0-0-1', 
+                                title: '1-0-0-1' 
+                            },
+                            { 
+                                id: '1-0-0-2', 
+                                title: '1-0-0-2' 
+                            },
+                            {
+                                id: '1-0-0-3',
+                                title: '1-0-0-3',
+                                children:[
+                                    { id: '1-0-0-3-0', title: '1-0-0-3-0' },
+                                    { id: '1-0-0-3-1', title: '1-0-0-3-1' },
+                                    { id: '1-0-0-3-2', title: '1-0-0-3-2' }, 
+                                ]
+                            }
+                        ]
                     },
                     {
-                        id: '1-0-0-3',
-                        title: '1-0-0-3',
-                        children:[
-                            { id: '1-0-0-3-0', title: '1-0-0-3-0' },
-                            { id: '1-0-0-3-1', title: '1-0-0-3-1' },
-                            { id: '1-0-0-3-2', title: '1-0-0-3-2' }, 
+                        id: '1-0-1', 
+                        title: '1-0-1', 
+                        children: [
+                            { id: '1-0-1-0', title: '1-0-1-0' },
+                            { id: '1-0-1-1', title: '1-0-1-1' },
+                            { id: '1-0-1-2', title: '1-0-1-2' }
                         ]
+                    },
+                    { 
+                        id: '1-0-2', 
+                        title: '1-0-2' 
                     }
                 ]
             },
             {
-                id: '1-0-1', 
-                title: '1-0-1', 
+                id: '1-1', 
+                title: '1-1', 
                 children: [
-                    { id: '1-0-1-0', title: '1-0-1-0' },
-                    { id: '1-0-1-1', title: '1-0-1-1' },
-                    { id: '1-0-1-2', title: '1-0-1-2' }
+                    { id: '1-1-0', title: '1-1-0' },
+                    { id: '1-1-1', title: '1-1-1' },
+                    { id: '1-1-2', title: '1-1-2' }
                 ]
             },
-            { 
-                id: '1-0-2', 
-                title: '1-0-2' 
-            }
+            { id: '1-2', title: '1-2' },
+            { id: '1-3', title: '1-3' },
+            { id: '1-4', title: '1-4' }
         ]
-    },
-    {
-        id: '1-1', 
-        title: '1-1', 
-        children: [
-            { id: '1-1-0', title: '1-1-0' },
-            { id: '1-1-1', title: '1-1-1' },
-            { id: '1-1-2', title: '1-1-2' }
-        ]
-    },
-    { id: '1-2', title: '1-2' },
-    { id: '1-3', title: '1-3' },
-    { id: '1-4', title: '1-4' }
+    }
 ]
 
 
@@ -245,8 +251,8 @@ const Tree01 = (props) => {
         adjustChildCheck(current, current.checked)
         setList([...list])
         // handleResultByChild([...list])
-        // handleResultByParent([...list])
-        handleResultBySelectedOrder(current,current.checked)
+        handleResultByParent([...list])
+        // handleResultBySelectedOrder(current,current.checked)
     }
 
     const renderTree = (data) => {
