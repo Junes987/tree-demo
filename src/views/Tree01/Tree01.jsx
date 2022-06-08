@@ -1,44 +1,73 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Children, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import styles from './Tree01.module.css'
 
 const rootData = [
     {
-        id: '1', title: '笔记本电脑', children: [
+        id: '1-0', 
+        title: '1-0', 
+        children: [
             {
-                id: '1-1', title: '华硕', children: [
-                    { id: '1-1-1', title: 'a-1' },
-                    { id: '1-1-2', title: 'a-2' },
-                    { id: '1-1-3', title: 'a-3' }
+                id: '1-0-0', 
+                title: '1-0-0', 
+                children: [
+                    { 
+                        id: '1-0-0-0', 
+                        title: '1-0-0-0' 
+                    },
+                    { 
+                        id: '1-0-0-1', 
+                        title: '1-0-0-1' 
+                    },
+                    { 
+                        id: '1-0-0-2', 
+                        title: '1-0-0-2' 
+                    },
+                    {
+                        id: '1-0-0-3',
+                        title: '1-0-0-3',
+                        children:[
+                            { id: '1-0-0-3-0', title: '1-0-0-3-0' },
+                            { id: '1-0-0-3-1', title: '1-0-0-3-1' },
+                            { id: '1-0-0-3-2', title: '1-0-0-3-2' }, 
+                        ]
+                    }
                 ]
             },
             {
-                id: '1-2', title: '戴尔', children: [
-                    { id: '1-2-1', title: 'b-1' },
-                    { id: '1-2-2', title: 'b-2' },
-                    { id: '1-2-3', title: 'b-3' }
+                id: '1-0-1', 
+                title: '1-0-1', 
+                children: [
+                    { id: '1-0-1-0', title: '1-0-1-0' },
+                    { id: '1-0-1-1', title: '1-0-1-1' },
+                    { id: '1-0-1-2', title: '1-0-1-2' }
                 ]
             },
-            { id: '1-3', title: 'sony' }
+            { 
+                id: '1-0-2', 
+                title: '1-0-2' 
+            }
         ]
     },
     {
-        id: '2', title: '冰箱', children: [
-            { id: '2-1-1', title: '冰箱-1' },
-            { id: '2-1-2', title: '冰箱-2' },
-            { id: '2-1-3', title: '冰箱-3' }
+        id: '1-1', 
+        title: '1-1', 
+        children: [
+            { id: '1-1-0', title: '1-1-0' },
+            { id: '1-1-1', title: '1-1-1' },
+            { id: '1-1-2', title: '1-1-2' }
         ]
     },
-    { id: '3', title: '洗衣机' },
-    { id: '4', title: '鼠标' },
-    { id: '5', title: '手机' }
+    { id: '1-2', title: '1-2' },
+    { id: '1-3', title: '1-3' },
+    { id: '1-4', title: '1-4' }
 ]
 
 
 const Tree01 = (props) => {
     const { onChange } = props
     const [list, setList] = useState([])
-    const checkedList = useRef([])
+    const result = useRef([])
 
     // 创建一个有结构的树结构
     const createNode = (data, parent) => {
@@ -149,6 +178,61 @@ const Tree01 = (props) => {
         console.log(result)
     }
 
+    // 根据用户选择的先后顺序收集节点——项上收集
+    const handleResultBySelectedOrder = (checkedNode,newChecked) => {
+        if(checkedNode.checked === 'checked'){
+            let current = checkedNode
+            while(current.parent && current.parent.checked === 'checked'){
+                current = current.parent
+            }
+            const deleteChild = (rootNode) => {
+                if(rootNode.children){
+                    rootNode.children.forEach((item) => {
+                        let thisIndex = result.current.findIndex((v) => v.id === item.id)
+                        if(thisIndex >= 0){
+                            result.current.splice(thisIndex,1)
+                        }
+                        if(item.children){
+                            deleteChild(item)
+                        }
+                    })
+                }
+            }
+            deleteChild(current)
+            result.current.push(current)
+        }else{
+            let current = checkedNode
+            while(current.parent && current.parent.checked === 'half'){
+                current = current.parent
+            }
+            const deleteParent = (rootNode) => {
+                if(rootNode.children){
+                    rootNode.children.forEach((item) => {
+                        let thisIndex = result.current.findIndex((v) => v.id === item.id)
+                        if(thisIndex >= 0){
+                            result.current.splice(thisIndex,1)
+                        }
+                        if(item.checked === 'half' && item.children){
+                            deleteParent(item)
+                        }
+                        if(item.checked === 'checked'){
+                            let thisIndex = result.current.findIndex((v) => v.id === item.id)
+                            if(thisIndex === -1){
+                                result.current.push(item)
+                            }
+                        }
+                    })
+                }
+            }
+            let rootIndex = result.current.findIndex((node) => node.id === current.id)
+            if(rootIndex >= 0){
+                result.current.splice(rootIndex,1)
+            }
+            deleteParent(current)
+        }
+        console.log(result.current)
+    }
+
     // 选中节点
     const handleChangeCheck = (current) => {
         if (current.checked === '' || current.checked === 'half') {
@@ -161,7 +245,8 @@ const Tree01 = (props) => {
         adjustChildCheck(current, current.checked)
         setList([...list])
         // handleResultByChild([...list])
-        handleResultByParent([...list])
+        // handleResultByParent([...list])
+        handleResultBySelectedOrder(current,current.checked)
     }
 
     const renderTree = (data) => {
