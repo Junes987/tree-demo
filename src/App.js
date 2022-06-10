@@ -11,7 +11,10 @@ const App = () => {
     <div className="App">
       <h2>Hello Tree</h2>
       <hr />
-      <Tree01 onChange={onChange}/>
+      <Tree01 
+        onChange={onChange} 
+        checkedIds={['1-0-0-0']} 
+      />
     </div>
   );
 }
